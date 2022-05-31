@@ -10,9 +10,9 @@ const arrTasks = [];
 //Отслеживаем клик по кнопке для добавления задачи
 
 dom.add.addEventListener('click', () => {
-    const task = dom.new.value;
-    if(task) {
-        addTask(task); 
+    const newTasksText = dom.new.value;
+    if(newTasksText && isNotHaveTask(newTasksText, arrTasks)) {
+        addTask(newTasksText, arrTasks); 
         dom.new.value = '';
     } 
     
@@ -20,15 +20,31 @@ dom.add.addEventListener('click', () => {
 });
 
 //Функция добавления задачи
-function addTask(text) {
+function addTask(text, list) {
     const timestamp = Date.now();
     const task = {
         id: timestamp,
         text: text,
         isComplete: false,
     };
-    arrTasks.push(task);
-    console.log(arrTasks)
+    list.push(task);
+    console.log(arrTasks);
 }
+
+//Проверка существования задачи в массиве задач
+
+function isNotHaveTask(text, list) {
+    let isNotHave = true; // статус проверки
+
+    list.forEach(task => {
+        if(task.text === text) {
+            alert('Задача уже существует');
+            isNotHave = false;
+            dom.new.value = '';
+        } 
+    });
+    return isNotHave;
+}
+
 
 
