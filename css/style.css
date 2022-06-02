@@ -125,3 +125,7 @@ body {
     margin-right: 0;
     font-size: 44px;
 }
+
+.todo__task-count{
+    margin-bottom: 10px;
+}

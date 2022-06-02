@@ -2,7 +2,8 @@
 const dom = {
     new: document.querySelector('#new'),
     add: document.querySelector('#add'),
-    tasks: document.querySelector('#tasks')
+    tasks: document.querySelector('#tasks'),
+    count: document.querySelector('#count')
 };
 
 const arrTasks = [];
@@ -71,16 +72,25 @@ function tasksRender(list) {
     });
 
     dom.tasks.innerHTML = htmlList;
+    countTask(arrTasks);
 }
 
 //Отслеживаем клик по чекбоксу задачи
 dom.tasks.onclick = (event) => {
     const target = event.target;
     const isCheckBoxEl = target.classList.contains('todo__checkbox-div');
+    const isDeletekEl = target.classList.contains('todo__task-del');
+
     if(isCheckBoxEl) {
         const task = target.parentElement.parentElement;
         const taskId = task.getAttribute('id');
         changeTaskStatus(taskId, arrTasks);
+        tasksRender(arrTasks);
+    }
+    if(isDeletekEl) {
+        const task = target.parentElement;
+        const taskId = task.getAttribute('id');
+        deleteTask(taskId, arrTasks);
         tasksRender(arrTasks);
     }
 };
@@ -92,4 +102,18 @@ function changeTaskStatus(id, list) {
             task.isComplete = !task.isComplete;
         }
     });
+}
+
+//Функция удаления задачи
+
+function deleteTask(id, list) {
+    list.forEach((task, idx) => {
+        if(task.id == id) {
+            list.splice(idx, 1);
+        }
+    });
+}
+
+function countTask(list) {
+    dom.count.innerHTML = list.length;
 }
